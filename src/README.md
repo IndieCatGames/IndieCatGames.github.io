@@ -1,321 +1,185 @@
----
-home: true
-icon: house
-title: Project home
-heroImage: https://theme-hope-assets.vuejs.press/logo.svg
-bgImage: https://theme-hope-assets.vuejs.press/bg/6-light.svg
-bgImageDark: https://theme-hope-assets.vuejs.press/bg/6-dark.svg
-bgImageStyle:
-  background-attachment: fixed
-heroText: Project name
-tagline: You can place the description of the project here.
-actions:
-  - text: How to Use
-    icon: lightbulb
-    link: ./demo/
-    type: primary
+Unreal ImGui
+============
+[![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE.md)
 
-  - text: Docs
-    link: ./guide/
+Unreal ImGui is an Unreal Engine 5 plug-in that integrates [Dear ImGui](https://github.com/ocornut/imgui) developed by Omar Cornut.
 
-highlights:
-  - header: Easy to install
-    image: /assets/image/box.svg
-    bgImage: https://theme-hope-assets.vuejs.press/bg/3-light.svg
-    bgImageDark: https://theme-hope-assets.vuejs.press/bg/3-dark.svg
-    highlights:
-      - title: Run <code>pnpm create vuepress-theme-hope hope-project</code> to create a new project with this theme.
-      - title: Run <code>pnpm create vuepress-theme-hope add .</code> in your project root to create a new project with this theme.
+Dear ImGui is an immediate-mode graphical user interface library that is very lightweight and easy to use. It can be very useful when creating debugging tools.
 
-  - header: Add things you want in markdown
-    description: We extended the standard commonMark specification and added tons of new features for you.
-    image: /assets/image/markdown.svg
-    bgImage: https://theme-hope-assets.vuejs.press/bg/2-light.svg
-    bgImageDark: https://theme-hope-assets.vuejs.press/bg/2-dark.svg
-    bgImageStyle:
-      background-repeat: repeat
-      background-size: initial
-    features:
-      - title: Links Check
-        icon: clipboard-check
-        details: Check markdown links
-        link: https://theme-hope.vuejs.press/guide/markdown/others.html#link-check
+:stop_button: Read Me First
+---------------------------
+Please note that this is a forked project from forked project [https://github.com/benui-dev/UnrealImGui](https://github.com/benui-dev/UnrealImGui). I do not take credit for the work he's put into making Dear ImGui work in Unreal Engine. The work I've done to this fork is listed below.
 
-      - title: Hint box
-        icon: box-archive
-        details: Decorate Markdown content with styles
-        link: https://theme-hope.vuejs.press/guide/markdown/stylize/hint.html
+I've reworked input system for properly working newer versions. If you wish to read the original readme.md, please see this link: [UnrealImGui ReadMe.md](https://github.com/benui-dev/UnrealImGui/blob/master/README.md).
 
-      - title: GFM alerts
-        icon: bell
-        details: GFM alert box
-        link: https://theme-hope.vuejs.press/guide/markdown/stylize/alert.html
+Also note that the NetImGui branch is not up to date with any of this fork's changes.
 
-      - title: Tabs
-        icon: table-columns
-        details: Group similar content with tabs and switch them together
-        link: https://theme-hope.vuejs.press/guide/markdown/content/tabs.html
+Fork Additions/Fixes
+--------------------
+ - Updated core source files for Unreal Engine 5.5.
+ - Updated Dear ImGui to 1.91.6.
+ - `ImGui::IsKey*` now functional with all known ImGui keys.
+ - Updated input handling flow to be [standard compliant](https://github.com/ocornut/imgui/issues/4921) with Dear ImGui 1.87 which makes ImGui react better at low FPS
+ - Allowed `UTexture` for Texture Manager so render targets can also be rendered to quads rather than just being limited to using `UTexture2D` instances.
+ - Added the ability to instruct ImGui context to build custom fonts (like FontAwesome).
 
-      - title: Code Tabs
-        icon: code
-        details: Group similar codes with tabs
-        link: https://theme-hope.vuejs.press/guide/markdown/code/code-tabs.html
+Status
+------
+UnrealImGui Version: 1.22
 
-      - title: Custom Align
-        icon: align-center
-        details: Let you decide to align paragraphs in the way you like
-        link: https://theme-hope.vuejs.press/guide/markdown/stylize/align.html
+ImGui version: 1.91.6
 
-      - title: Attrs
-        icon: code
-        details: Allow you to add attributes for Markdown content
-        link: https://theme-hope.vuejs.press/guide/markdown/stylize/attrs.html
+ImPlot version: v0.17 WIP
 
-      - title: Superscript and subscript
-        icon: superscript
-        details: Inserting superscript and subscript
-        link: https://theme-hope.vuejs.press/guide/markdown/stylize/sup-sub.html
+Supported Unreal Engine version: 5.5*
 
-      - title: Footnote
-        icon: quote-left
-        details: Your Markdown now support footnotes
-        link: https://theme-hope.vuejs.press/guide/markdown/content/footnote.html
+\* *The original repository has support for later versions of UE4. I've not tested this fork on UE4 variants, I only know it works for UE5 currently.*
 
-      - title: Mark
-        icon: highlighter
-        details: Mark and highlight contents
-        link: https://theme-hope.vuejs.press/guide/markdown/stylize/mark.html
+How to Set up
+-------------
+On top of reading the base repository's [How to Set up](https://github.com/segross/UnrealImGui/blob/master/README.md#how-to-set-up) segment, you'll need to add the following line to your `[GameName].Build.cs` file otherwise you'll get linking errors:
 
-      - title: Spoiler
-        icon: eraser
-        details: Mark spoiler contents
-        link: https://theme-hope.vuejs.press/guide/markdown/stylize/spoiler.html
+```cpp
+// Tell the compiler we want to import the ImPlot symbols when linking against ImGui plugin 
+PrivateDefinitions.Add(string.Format("IMPLOT_API=DLLIMPORT"));
+```
 
-      - title: Tasklist
-        icon: square-check
-        details: Use tasklist in Markdown
-        link: https://theme-hope.vuejs.press/guide/markdown/grammar/tasklist.html
+# Additional Knowledge
 
-      - title: Image syntax
-        icon: image
-        details: improve syntax to specify size and color scheme
-        link: https://theme-hope.vuejs.press/guide/markdown/grammar/image.html
+## Using ImPlot
 
-      - title: Component Support
-        icon: puzzle-piece
-        details: Easily insert components in Markdown
-        link: https://theme-hope.vuejs.press/guide/component/grammar.html
+It's pretty easy to use ImPlot, it's pretty much the same drill as using Dear ImGui with the UnrealImGui plugin. You can see documentation on how to use ImPlot here: [ImPlot](https://github.com/epezent/implot).
 
-      - title: Components
-        icon: puzzle-piece
-        details: Common components out fo box
-        link: https://theme-hope.vuejs.press/guide/component/built-in.html
+The only thing you won't need to do is call the `ImPlot::CreateContext()` and `ImPlot::DestroyContext` routines as they're already called when ImGui's context is created within UnrealImGui's guts.
 
-      - title: Chart Support
-        icon: chart-simple
-        details: Display charts in Markdown
-        link: https://theme-hope.vuejs.press/guide/markdown/chart/chartjs.html
+## Drawing a UTextureRenderTarget2D
 
-      - title: Flowchart Support
-        icon: route
-        details: Create your flowchart in Markdown
-        link: https://theme-hope.vuejs.press/guide/markdown/chart/flowchart.html
+One might want to render viewports into the world in an ImGui window. You can do this pretty simply by generating a `UTextureRenderTarget2D` then assigning that to a `ASceneCapture2D` actor in your world. Here's some sample code for generating an correctly managing the `UTextureRenderTarget2D`:
+```cpp
+void Init()
+{
+    TextureRenderTarget = NewObject<UTextureRenderTarget2D>();
+    if(IsValid(TextureRenderTarget))
+    {
+        TextureRenderTarget->InitAutoFormat(512, 512);
+        TextureRenderTarget->UpdateResourceImmediate(true);
+    }
 
-      - title: Mermaid Support
-        icon: chart-pie
-        details: Add mermaid diagram in Markdown
-        link: https://theme-hope.vuejs.press/guide/markdown/chart/mermaid.html
+    // ... Generate a unique TextureName here
+    // Register this render target as an ImGui interop handled texture
+    ImGuiTextureHandle = FImGuiModule::Get().FindTextureHandle(TextureName);
+    if(!ImGuiTextureHandle.IsValid())
+    {
+        if(IsValid(TextureRenderTarget))
+        {
+            ImGuiTextureHandle = FImGuiModule::Get().RegisterTexture(TextureName, TextureRenderTarget, true);
+        }
+    }
+}
 
-      - title: Plantuml Support
-        icon: diagram-project
-        details: Add plantuml in Markdown
-        link: https://theme-hope.vuejs.press/guide/markdown/chart/plantuml.html
+~Class()
+{
+    // Requires releasing to avoid memory leak
+    FImGuiModule::Get().ReleaseTexture(ImGuiTextureHandle);
+}
 
-      - title: Tex Support
-        icon: square-root-variable
-        details: Markdown now have Tex Support so you can write your formula
-        link: https://theme-hope.vuejs.press/guide/markdown/grammar/math.html
+void Render()
+{
+    // Actually submit the draw command to ImGui to render the quad with the texture
+    if(ImGuiTextureHandle.IsValid())
+    {
+        ImGui::Image(ImGuiTextureHandle.GetTextureId(), {512.f, 512.f});
+    }
+}
+```
 
-      - title: Include snippet Support
-        icon: fa6-brands:markdown
-        details: split your docs with different parts and import them in Markdown
-        link: https://theme-hope.vuejs.press/guide/markdown/content/include.html
+Then generating the `ASceneCapture2D`:
+```cpp
+void Init()
+{
+    FActorSpawnParameters SpawnInfo;
+    SceneCapture2D = World->SpawnActor<ASceneCapture2D>(FVector::ZeroVector, FRotator::ZeroRotator, SpawnInfo);
+    SceneCaptureComponent2D->TextureTarget = TextureRenderTarget;
+    SceneCaptureComponent2D->UpdateContent();
 
-      - title: Playground Support
-        icon: code
-        details: You can add playground in Markdown files
-        link: https://theme-hope.vuejs.press/guide/markdown/code/playground.html
+    // Need to use this in order to force capture to use tone curve and also set alpha to scene alpha (1)
+    SceneCaptureComponent2D->CaptureSource = ESceneCaptureSource::SCS_FinalToneCurveHDR;
+}
+```
 
-      - title: Kotlin playground Support
-        icon: fa6-brands:kickstarter
-        details: Reactive kotlin playground
-        link: https://theme-hope.vuejs.press/guide/markdown/code/kotlin-playground.html
+### Troubleshooting
+If you're using a scene capture and your quad is not drawing at all, make sure your scene capture "Capture Source" is set to "Final Color (with tone curve) in Linear sRGB gamut" to avoid alpha being set to 0 (since there's no way to instruct ImGui to ignore alpha without modding the core UnrealImGui plugin).
 
-      - title: Vue playground Support
-        icon: fa6-brands:vuejs
-        details: Show living vue component in playground
-        link: https://theme-hope.vuejs.press/guide/markdown/code/vue-playground.html
+If you're getting crashes or seg faults during rendering, make sure you're using `UPROPERTY()` on your class variables!
 
-      - title: Sandpack playground Support
-        icon: code
-        details: A live coding environment driven by Sandpack.
-        link: https://theme-hope.vuejs.press/guide/markdown/code/sandpack.html
+## Adding custom fonts
+### FontAwesome
+Adding custom fonts is fairly simple. As a more complex and more commonly done, we're going to embed and build FontAwesome 6 into the font atlas. First thing you'll need is a binary C version of the FontAwesome font along with the necessary [companion descriptors](https://github.com/juliettef/IconFontCppHeaders/blob/main/IconsFontAwesome6.h). The descriptors are pre-generated, however if you have a new version of FA you wish to use, then use the Python script in that repository. As for the binary C, you'll need to compile Dear ImGui's [binary_to_compressed_c.cpp](https://github.com/ocornut/imgui/blob/master/misc/fonts/binary_to_compressed_c.cpp).
 
-      - title: Code Demo Support
-        icon: laptop-code
-        details: You can insert code demo easily
-        link: https://theme-hope.vuejs.press/guide/markdown/code/demo.html
+Once you have the necessary files, you'll need to encode your FontAwesome font using the command:
+```
+binary_to_compressed_c.exe -nocompress fa-solid-900.ttf FontAwesomeFont > FontAwesomeFont.h
+```
+The only mandatory field here is `-nocompress` as this instructs the encoder to create an uncompressed binary file (1:1) since currently there's no immediate support for compressed fonts.
 
-      - title: Presentation Support
-        icon: person-chalkboard
-        details: Insert presentation in Markdown files via Reveal.js
-        link: https://theme-hope.vuejs.press/guide/markdown/content/revealjs.html
+Move over your descriptors and your binary C font file to an appropriate location for inclusion in your Unreal Engine project. The following code is how to instruct ImGui to build the font atlas with your FontAwesome font:
 
-  - header: Customizable UI
-    description: Customizable outlook with full a11y support.
-    image: /assets/image/ui.svg
-    bgImage: https://theme-hope-assets.vuejs.press/bg/9-light.svg
-    bgImageDark: https://theme-hope-assets.vuejs.press/bg/9-dark.svg
-    highlights:
-      - title: Dark Mode
-        icon: circle-half-stroke
-        details: Switch between light and dark modes freely
-        link: https://theme-hope.vuejs.press/guide/interface/darkmode.html
+```cpp
+#include "FontAwesomeFont.h"
+#include "IconsFontAwesome6.h"
 
-      - title: Customizable Theme Color
-        icon: palette
-        details: Set theme color with the brand color and even a picker
-        link: https://theme-hope.vuejs.press/guide/interface/theme-color.html
+// Add FontAwesome font glyphs from memory
+if(TSharedPtr<ImFontConfig> FAFontConfig = MakeShareable(new ImFontConfig()))
+{
+    static const ImWchar IconRange[] = { ICON_MIN_FA, ICON_MAX_FA, 0 };
+    
+    FAFontConfig->FontDataOwnedByAtlas = false; // Global font data lifetime
+    FAFontConfig->FontData             = (void*)FontAwesomeData; // Declared in binary C .h file
+    FAFontConfig->FontDataSize         = FontAwesomeSize; // Declared in binary C .h file
+    FAFontConfig->SizePixels           = 16;
+    FAFontConfig->MergeMode            = true; // Forces ImGui to place this font into the same atlas as the previous font
+    FAFontConfig->GlyphRanges          = IconRange; // Required; instructs ImGui to use these glyphs
+    FAFontConfig->GlyphMinAdvanceX     = 16.f; // Use for monospaced icons
+    FAFontConfig->PixelSnapH           = true; // Better rendering (align to pixel grid)
+    FAFontConfig->GlyphOffset          = {0, 3}; // Moves icons around, for alignment with general typesets
 
-      - title: More
-        icon: ellipsis
-        details: RTL layout, print support, fullscreen button, etc.
-        link: https://theme-hope.vuejs.press/guide/interface/others.html
+    FImGuiModule::Get().GetProperties().AddCustomFont("FontAwesome", FAFontConfig);
+    FImGuiModule::Get().RebuildFontAtlas();
+}
+```
 
-  - header: Improved layouts
-    description: An awesome responsive layout
-    image: /assets/image/layout.svg
-    bgImage: https://theme-hope-assets.vuejs.press/bg/5-light.svg
-    bgImageDark: https://theme-hope-assets.vuejs.press/bg/5-dark.svg
-    highlights:
-      - title: Navbar
-        icon: window-maximize
-        details: Fully customizable navbar with improved mobile support
-        link: https://theme-hope.vuejs.press/guide/layout/navbar.html
+That's it. Make sure you execute the above code once at the beginning of the first ImGui frame (or at any point of your framework where the ImGui context has been initialized correctly) and it should build the main atlas with FontAwesome inside it. ImFontConfig lifetime is currently managed via reference counting (`TSharedPtr`).
 
-      - title: Sidebar
-        icon: fas fa-window-maximize fa-rotate-270
-        details: Generate sidebar based on page headings and file structure
-        link: https://theme-hope.vuejs.press/guide/layout/sidebar.html
+### Using the icons
+```cpp
+#include "IconsFontAwesome6.h"
 
-      - title: Slide Page
-        icon: person-chalkboard
-        details: Adding slide pages to display things you like
-        link: https://theme-hope.vuejs.press/guide/layout/slides.html
+void OnPaint()
+{
+    ImGui::Text(ICON_FA_AWARD);
+}
+```
 
-      - title: Other Layout Improvement
-        icon: object-group
-        details: Improved page nav and new breadcrumb, footer and toc. We also bring you a brand new homepage.
-        link: https://theme-hope.vuejs.press/guide/layout/
+Pretty simple. Building FStrings that incorporate FontAwesome icons however gets a little trickier:
+```cpp
+FString Str = "Hello " + FString(UTF8_TO_TCHAR(ICON_FA_WAVE_SQUARE)) " World";
+ImGui::TextUnformatted(TCHAR_TO_UTF8(*Str));
+```
 
-  - header: New features
-    image: /assets/image/features.svg
-    bgImage: https://theme-hope-assets.vuejs.press/bg/1-light.svg
-    bgImageDark: https://theme-hope-assets.vuejs.press/bg/1-dark.svg
-    features:
-      - title: Catalog Page
-        icon: network-wired
-        details: Auto generating catalog page and out of box catalog component
-        link: https://theme-hope.vuejs.press/guide/feature/catalog.html
+### More info
+ - [Dear ImGui: Using Fonts](https://github.com/ocornut/imgui/blob/master/docs/FONTS.md)
+ - [IconFontCppHeaders](https://github.com/juliettef/IconFontCppHeaders)
+ - [FontAwesome with general Dear ImGui](https://pixtur.github.io/mkdocs-for-imgui/site/FONTS/)
 
-      - title: Pageviews and Comments
-        icon: comment-dots
-        details: Pageview statistics and comment support with 4 comment service
-        link: https://theme-hope.vuejs.press/guide/feature/comment.html
+# Misc
 
-      - title: Article Information
-        icon: circle-info
-        details: Add author, writing date, reading time, word count and other information to your article
-        link: https://theme-hope.vuejs.press/guide/feature/page-info.html
+See also
+--------
+ - [Original Project by segross](https://github.com/segross/UnrealImGui)
+ - [Dear ImGui](https://github.com/ocornut/imgui)
+ - [ImPlot](https://github.com/epezent/implot)
 
-      - title: Article Encryption
-        icon: lock
-        details: Encrypt you articles based on page links, so that only the one you want could see them
-        link: https://theme-hope.vuejs.press/guide/feature/encrypt.html
 
-      - title: Search
-        icon: search
-        details: Support docsearch and client search
-        link: https://theme-hope.vuejs.press/guide/feature/search.html
-
-      - title: Code Block
-        icon: code
-        details: Customize code block themes, line number, highlight lines, copy button, etc.
-        link: https://theme-hope.vuejs.press/guide/markdown/code/fence.html.html
-
-      - title: Image Preview
-        icon: image
-        details: Support viewing, zooming, sharing your page images like a gallery
-        link: https://theme-hope.vuejs.press/guide/feature/photo-swipe.html
-
-  - header: Blogging
-    description: Create personal blog with theme
-    image: /assets/image/blog.svg
-    bgImage: https://theme-hope-assets.vuejs.press/bg/5-light.svg
-    bgImageDark: https://theme-hope-assets.vuejs.press/bg/5-dark.svg
-    highlights:
-      - title: Blog features
-        icon: blog
-        details: Listing your articles with their dates, tags and categories
-        link: https://theme-hope.vuejs.press/guide/blog/intro.html
-
-      - title: Blog homepage
-        icon: blog
-        details: New blog homepage
-        link: https://theme-hope.vuejs.press/guide/blog/home.html
-
-      - title: Blogger info
-        icon: circle-info
-        details: Customize avatar, name, slogan, introduction and social links
-        link: https://theme-hope.vuejs.press/guide/blog/blogger.html
-
-      - title: Timeline
-        icon: clock
-        details: Read through blog posts in a timeline
-        link: https://theme-hope.vuejs.press/guide/blog/timeline.html
-
-  - header: Advanced
-    description: Advanced features to improve site SEO and user experience
-    image: /assets/image/advanced.svg
-    bgImage: https://theme-hope-assets.vuejs.press/bg/4-light.svg
-    bgImageDark: https://theme-hope-assets.vuejs.press/bg/4-dark.svg
-    highlights:
-      - title: SEO Enhancement
-        icon: dumbbell
-        details: Optimize pages for search engines
-        link: https://theme-hope.vuejs.press/guide/advanced/seo.html
-
-      - title: Sitemap
-        icon: sitemap
-        details: Generate a Sitemap for your site
-        link: https://theme-hope.vuejs.press/guide/advanced/sitemap.html
-
-      - title: Feed
-        icon: rss
-        details: Generate feed to allow users to subscribe it
-        link: https://theme-hope.vuejs.press/guide/advanced/feed.html
-
-      - title: PWA
-        icon: mobile-screen
-        details: Make your site more like an APP
-        link: https://theme-hope.vuejs.press/guide/advanced/pwa.html
-
-copyright: false
-footer: Theme by <a href="https://theme-hope.vuejs.press/" target="_blank">VuePress Theme Hope</a> | MIT Licensed, Copyright © 2019-present Mr.Hope
----
-
-This is an example of a project homepage. You can place your main content here.
-
-To use this layout, you need to set `home: true` in the page front matter.
-
-For related descriptions of configuration items, please see [Project HomePage Layout Config](https://theme-hope.vuejs.press/guide/layout/home/).
+License
+-------
+Unreal ImGui (and this fork) is licensed under the MIT License, see LICENSE for more information.

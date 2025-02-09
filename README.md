@@ -1,1 +1,2 @@
+[![部署文档](https://github.com/IndieCatGames/IndieCatGames.github.io/actions/workflows/deploy-docs.yml/badge.svg)](https://github.com/IndieCatGames/IndieCatGames.github.io/actions/workflows/deploy-docs.yml)
 [![pages-build-deployment](https://github.com/IndieCatGames/IndieCatGames.github.io/actions/workflows/pages/pages-build-deployment/badge.svg?branch=main)](https://github.com/IndieCatGames/IndieCatGames.github.io/actions/workflows/pages/pages-build-deployment)
